@@ -1,0 +1,24 @@
+---
+  - name: Create a DB instance using the default AWS KMS encryption key
+    hosts: localhost
+    vars_files: 
+      - ./vars/vars-rds.yml
+    connection: local
+    gather_facts: False
+
+    tasks:
+    - name: Use coomunity.aws to create new rds instance
+      community.aws.rds_instance:
+        db_instance_identifier: "{{ db_name }}"
+        engine: sqlserver-ex
+        region: ap-southeast-2
+        publicly_accessible: yes
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"
+        instance_type: db.t2.micro
+        username: "{{ username }}"
+        password: "{{password}}"
+        allocated_storage: 20
+        tags: 
+          Environment: fx-testing 
+
